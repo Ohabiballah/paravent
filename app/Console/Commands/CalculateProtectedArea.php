@@ -20,7 +20,7 @@ class CalculateProtectedArea extends Command
      *
      * @var string
      */
-    protected $signature = 'app:calculate-protected-area {width : La largeur du continent} {altitudes* : Les altitudes du terrain}';
+    protected $signature = 'app:calculate-protected-area {width? : La largeur du continent} {altitudes?* : Les altitudes du terrain}';
 
     /**
      * The console command description.
@@ -36,6 +36,13 @@ class CalculateProtectedArea extends Command
     {
         $width = $this->argument('width');
         $altitudes = $this->argument('altitudes');
+
+        // Vérifier si les arguments sont fournis
+        if (is_null($width) || empty($altitudes)) {
+            $this->error("Erreur : Vous devez spécifier la largeur du continent et au moins une altitude.");
+            $this->error("Usage : php artisan app:calculate-protected-area {width} {altitudes...}");
+            return;
+        }
 
         // Valider les arguments
         if (!$this->validateArguments($width, $altitudes)) {
@@ -108,7 +115,7 @@ class CalculateProtectedArea extends Command
 
         foreach ($altitudes as $altitude) {
             if (!is_numeric($altitude)) {
-                $this->error("L'altitude doit être un entier.");
+                $this->error("Toutes les altitudes doivent être des nombres.");
                 return false;
             }
 
