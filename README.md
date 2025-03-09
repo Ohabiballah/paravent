@@ -1,66 +1,141 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Paravent (Laravel Implementation)
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Ce projet est une implémentation en **Laravel** de l'exercice **"Paravent"**.  
+L'application permet de calculer la surface protégée par des montagnes face à un vent venant de l'ouest.
 
-## About Laravel
+---
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## 📌 Prérequis  
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+Avant d’installer et d’utiliser ce projet, assurez-vous que votre environnement respecte les versions minimales requises :  
+- **Laravel** : 12.1.1
+- **PHP** : 8.4.2  
+- **Composer** : 2.8.4  
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+Vous pouvez vérifier les versions installées avec :  
+```bash
+php -v       # Vérifier la version de PHP
+composer -V  # Vérifier la version de Composer
+php artisan --version  # Vérifier la version de Laravel
+```
 
-## Learning Laravel
+## 📌 Installation
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+Ce guide explique comment configurer le projet et enregistrer la commande Artisan.
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+1. **Cloner le dépôt et entrer dans le dossier du projet**
+   ```bash
+   git clone https://github.com/Ohabiballah/paravent.git
+   cd paravent
+   ```
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+2. **Installer les dépendances avec Composer**
+   ```bash
+   composer install
+   ```
 
-## Laravel Sponsors
+3. **Configurer l’environnement**
+   ```bash
+   cp .env.example .env
+   php artisan key:generate
+   ```
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+4. **Lancer le serveur de développement**
+   ```bash
+   php artisan serve
+   ```
 
-### Premium Partners
+## 📌 Signature de la commande
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+La commande Artisan intégrée permet d’exécuter l’algorithme directement depuis le terminal.
 
-## Contributing
+**Syntaxe :**
+```bash
+php artisan app:calculate-protected-area {width} {altitudes...}
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+### 📌 Exemple d'exécution :
+```bash
+php artisan app:calculate-protected-area 10 30 27 17 42 29 12 14 41 42 42
+```
 
-## Code of Conduct
+### 📌 Sortie attendue :
+```nginx
+Surface protégée : 6
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+## 📌 Gestion des erreurs
 
-## Security Vulnerabilities
+Le programme intègre une gestion robuste des erreurs pour éviter les comportements inattendus.
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+| Erreur | Cause | Message d'erreur |
+|--------|-------|------------------|
+| **Aucune entrée fournie** | Aucun argument passé | Erreur : Vous devez spécifier la largeur du continent et au moins une altitude. |
+| **Valeurs non numériques** | Saisie contenant des caractères invalides | Erreur : Toutes les altitudes doivent être des nombres. |
+| **Entrée trop grande** | Plus de 100 000 valeurs passées | Erreur : La largeur du continent {$width} doit être comprise entre 1 et 100 000. |
+| **Largeur non valide** | Largeur non numérique ou hors limites | Erreur : La largeur du continent doit être un entier compris entre 1 et 100 000. |
+| **Nombre d'altitudes incorrect** | Nombre d'altitudes différent de la largeur spécifiée | Erreur : Le nombre d'altitudes doit être égal à la largeur du continent ({$width}). |
+| **Altitude hors limites** | Valeur d'altitude inférieure à 0 ou supérieure à 100 000 | Erreur : La hauteur {$altitude} doit être comprise entre 0 et 100 000. |
+| **Exception interne** | Problème inattendu lors du traitement | Erreur : Une erreur s'est produite : {$message}. |
 
-## License
+### 📌 Exemple d'erreur
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+```bash
+php artisan app:calculate-protected-area abc 27 17
+```
+
+**Sortie :**
+```yaml
+Erreur : La largeur du continent doit être un entier.
+```
+
+## 📌 Explication de l'algorithme
+
+L'algorithme utilisé dans ce projet permet de calculer la surface protégée en analysant les altitudes des montagnes.
+
+### 📝 Principe de l'algorithme
+- On parcourt la liste des altitudes de gauche à droite (vent venant de l'ouest).
+- On garde en mémoire la hauteur maximale rencontrée jusqu'à présent.
+- Si une montagne est plus haute que la hauteur maximale, elle devient la nouvelle référence.
+- Si une montagne est plus basse, elle est considérée comme protégée.
+
+### 📂 Implémentation en PHP
+
+```php
+namespace App\Services;
+
+class MountainProtectionService
+{
+    /**
+     * Calcule la surface protégée par les montagnes.
+     *
+     * @param array $altitudes
+     * @return int
+     */
+    public function calculateProtectedArea(array $altitudes): int
+    {
+        $maxHeight = 0; // Hauteur maximale rencontrée
+        $protectedArea = 0;
+
+        foreach ($altitudes as $height) {
+            if ($height >= $maxHeight) {
+                $maxHeight = $height; // Si la montagne est plus haute, on met à jour la hauteur maximale
+            } else {
+                $protectedArea++; // Si la montagne est inférieure, elle est protégée
+            }
+        }
+
+        return $protectedArea;
+    }
+}
+```
+
+### 📝 Complexité de l'algorithme
+L'algorithme fonctionne en **O(n)**, où **n** est le nombre d'altitudes. Il est donc très efficace et peut traiter de grandes entrées rapidement.
+
+---
+
+🚀 **Ce projet est conçu pour être rapide, efficace et facile à utiliser !**
+
+💻 **N’hésitez pas à contribuer et à proposer des améliorations !**
+
