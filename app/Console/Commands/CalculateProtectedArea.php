@@ -34,27 +34,48 @@ class CalculateProtectedArea extends Command
      */
     public function handle()
     {
-        $width = $this->argument('width');
-        $altitudes = $this->argument('altitudes');
-
-        // Vérifier si les arguments sont fournis
-        if (is_null($width) || empty($altitudes)) {
-            $this->error("Erreur : Vous devez spécifier la largeur du continent et au moins une altitude.");
-            $this->error("Usage : php artisan app:calculate-protected-area {width} {altitudes...}");
-            return;
-        }
-
-        // Valider les arguments
-        if (!$this->validateArguments($width, $altitudes)) {
-            return;
-        }
-
-        // Calculer la surface protégée
         try {
+            // Vérification de la limite de mémoire actuelle avant d'ajuster
+            $currentMemory = memory_get_usage();
+            $memoryLimit = 2048000; // Limite mémoire en octets (2000 Ko)
+
+            // Si nécessaire, ajuster la limite de mémoire
+            if ($currentMemory < $memoryLimit) {
+                if (!ini_set('memory_limit', '2000K')) {
+                    $this->error("Impossible de définir la limite de mémoire à 2000K.");
+                    return;
+                }
+            }
+
+            // Définit la limite du temps d'exécution avant d'exécuter la commande
+            $executionLimit = 1; // Limite du temps d'exécution en secondes
+            set_time_limit($executionLimit);
+        
+            $width = $this->argument('width');
+            $altitudes = $this->argument('altitudes');
+
+            // Vérifier si les arguments sont fournis
+            if (is_null($width) || empty($altitudes)) {
+                $this->error("Erreur : Vous devez spécifier la largeur du continent et au moins une altitude.");
+                $this->error("Usage : php artisan app:calculate-protected-area {width} {altitudes...}");
+                return;
+            }
+
+            // Valider les arguments
+            if (!$this->validateArguments($width, $altitudes)) {
+                return;
+            }
+
+            // Calculer la surface protégée
             $protectedArea = $this->mountainProtectionService->calculateProtectedArea($altitudes);
             $this->info("Surface protégée : " . $protectedArea);
         } catch (\Exception $e) {
             $this->error("Une erreur s'est produite : " . $e->getMessage());
+        }
+
+         // Vérifier si un timeout s'est produit
+        if (connection_aborted()) {
+            $this->error("Erreur : Le temps d'exécution a dépassé la limite de {$executionLimit} seconde(s).");
         }
     }
 
