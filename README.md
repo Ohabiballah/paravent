@@ -135,6 +135,36 @@ L'algorithme fonctionne en **O(n)**, où **n** est le nombre d'altitudes. Il est
 
 ---
 
+## 📌 Tests
+
+Des tests unitaires et fonctionnels ont été mis en place pour garantir la robustesse et la fiabilité de l'application.
+
+## 📌 Exécution des tests
+
+Pour exécuter tous les tests, utilisez la commande suivante :
+
+```bash
+php artisan test
+```
+Si vous souhaitez exécuter uniquement les tests unitaires :
+
+```bash
+php artisan test --testsuite=Unit
+```
+
+Pour exécuter uniquement les tests fonctionnels :
+
+```bash
+php artisan test --testsuite=Feature
+```
+
+## 📌 Ce que couvrent les tests :
+✅ Validation des arguments pour app:calculate-protected-area
+✅ Calcul correct de la surface protégée
+✅ Gestion des erreurs et exceptions dans MountainProtectionService
+
+Ces tests assurent que l'algorithme fonctionne correctement avec différentes entrées et gère les erreurs de manière appropriée.
+
 🚀 **Ce projet est conçu pour être rapide, efficace et facile à utiliser !**
 
 💻 **N’hésitez pas à contribuer et à proposer des améliorations !**
