@@ -160,7 +160,9 @@ php artisan test --testsuite=Feature
 
 ## 📌 Ce que couvrent les tests :
 ✅ Validation des arguments pour app:calculate-protected-area
+
 ✅ Calcul correct de la surface protégée
+
 ✅ Gestion des erreurs et exceptions dans MountainProtectionService
 
 Ces tests assurent que l'algorithme fonctionne correctement avec différentes entrées et gère les erreurs de manière appropriée.
